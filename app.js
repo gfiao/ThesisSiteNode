@@ -126,7 +126,7 @@ function logEmotions(emotion, timestamp) {
     connection.execSql(request);
 }
 
-var io = require('socket.io').listen(80); // initiate socket.io server
+var io = require('socket.io').listen(1000); // initiate socket.io server
 io.sockets.on('connection', function (socket) {
     socket.emit('news', {hello: 'world'}); // Send data to client
 
