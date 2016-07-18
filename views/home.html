@@ -90,16 +90,15 @@
                 <button id="anger" type="button" class="btn btn-danger">Anger / Raiva
                 </button>
 
-                <button id="surprise" type="button" class="btn btn-info"
-                        onclick="logEmotions(document.getElementById('surprise').id)">Surprise /
+                <button id="surprise" type="button" class="btn btn-info">Surprise /
                     Surpreendido
                 </button>
 
             </div>
             <div class="row buttonsRow">
 
-                <button id="unhappiness" type="button" class="btn" style="background-color: #72a2ff"
-                        onclick="logEmotions(document.getElementById('unhappiness').id)">Unhappiness / Triste
+                <button id="unhappiness" type="button" class="btn" style="background-color: #72a2ff">Unhappiness /
+                    Triste
                 </button>
 
             </div>
@@ -121,22 +120,22 @@
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script>
 
-//    var socket = io.connect('http://localhost'); // connec to server
-//    socket.on('news', function (data) { // listen to news event raised by the server
-//
-//        var emotion;
-//        var timestamp;
-//        $(".btn").click(function (e) {
-//            emotion = this.id;
-//            timestamp = Math.round(player.getPosition());
-//
-//            var data = [];
-//            data.push(emotion);
-//            data.push(timestamp);
-//            socket.emit('my other event', data); // raise an event on the server
-//        });
-//
-//    });
+    var socket = io(); // connec to server
+    socket.on('news', function (data) { // listen to news event raised by the server
+
+        var emotion;
+        var timestamp;
+        $(".btn").click(function (e) {
+            emotion = this.id;
+            timestamp = Math.round(player.getPosition());
+
+            var data = [];
+            data.push(emotion);
+            data.push(timestamp);
+            socket.emit('my other event', data); // raise an event on the server
+        });
+
+    });
 
 </script>
 

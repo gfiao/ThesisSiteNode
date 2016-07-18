@@ -29,7 +29,6 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -89,3 +88,58 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+
+//================================================================
+
+var Connection = require('tedious').Connection;
+var config = {
+    userName: 'gfiao',
+    password: 'Leonardogui1.',
+    server: 'sharedemotions.database.windows.net',
+    // If you are on Microsoft Azure, you need this:
+    options: {encrypt: true, database: 'emotions'}
+};
+var connection = new Connection(config);
+connection.on('connect', function (err) {
+    // If no error, then good to proceed.
+    console.log("Connected");
+});
+
+var Request = require('tedious').Request;
+var TYPES = require('tedious').TYPES;
+
+function logEmotions(emotion, timestamp) {
+    request = new Request("insert shared_emotions(emotion, timestamp) values (@emotion, @timestamp);", function (err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+
+    request.addParameter('emotion', TYPES.NVarChar, emotion);
+    request.addParameter('timestamp', TYPES.Int, timestamp);
+    request.on('row', function (columns) {
+        columns.forEach(function (column) {
+            if (column.value === null) {
+                console.log('NULL');
+            } else {
+                console.log("Product id of inserted item is " + column.value);
+            }
+        });
+    });
+    connection.execSql(request);
+}
+
+var io = require('socket.io').listen(server);
+io.sockets.on('connection', function (socket) {
+    socket.emit('news', {hello: 'world'}); // Send data to client
+
+    // wait for the event raised by the client
+    socket.on('my other event', function (data) {
+
+        console.log(data);
+        logEmotions(data[0], data[1]);
+    });
+});
+
+
