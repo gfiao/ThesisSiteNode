@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!--<title>Share your emotions with us!</title>-->
+
+    <script src="../public/javascripts/jwplayer.js"></script>
+    <script>jwplayer.key = "UVV4ow38HyO138gilft/CU3X19P9xzePWeEMdA==";</script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container-fluid">
+
+    <!--<div class="starter-template">-->
+    <!--<h1>Bootstrap starter template</h1>-->
+    <!--<p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a-->
+    <!--mostly barebones HTML document.</p>-->
+    <!--</div>-->
+
+    <div class="row contentRow">
+
+        <div class="col-md-7">
+            <div id="player" class="col-md-7">
+                <!--<video id="video" width="768" height="432" controls>-->
+                <!--<source src="https://videohost1.blob.core.windows.net/video/Portugal.v.France.Eng.720p.Ex.mp4" type='video/mp4'>-->
+                <!--</video>-->
+            </div>
+        </div>
+
+        <script type='text/javascript'>
+            var player = jwplayer("player");
+            player.setup({
+                "file": "http://content.jwplatform.com/videos/2VDmV8sB-ggxCNxmE.mp4",
+                "width": 768,
+                "height": 432
+            });
+
+        </script>
+
+        <div class=" row col-md-5" style="padding: 8%;">
+            <div class="row buttonsRow">
+
+                <button id="connectedness" type="button" class="btn" style="background-color: greenyellow">Connectedness
+                    / Apoio
+                </button>
+            </div>
+            <div class="row buttonsRow">
+
+                <button id="elation" type="button" class="btn" style="background-color: yellow">Elation / Contente
+                </button>
+
+                <button id="worry" type="button" class="btn btn-success">
+                    Worry / Preocupado
+                </button>
+
+            </div>
+
+
+            <div class="row buttonsRow">
+                <button id="anger" type="button" class="btn btn-danger">Anger / Raiva
+                </button>
+
+                <button id="surprise" type="button" class="btn btn-info"
+                        onclick="logEmotions(document.getElementById('surprise').id)">Surprise /
+                    Surpreendido
+                </button>
+
+            </div>
+            <div class="row buttonsRow">
+
+                <button id="unhappiness" type="button" class="btn" style="background-color: #72a2ff"
+                        onclick="logEmotions(document.getElementById('unhappiness').id)">Unhappiness / Triste
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- Bootstrap core CSS -->
+<link href="../public/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="../public/javascripts/jquery-3.0.0.min.js"></script>
+
+<!-- Custom styles for this template -->
+<link href="../public/stylesheets/site.css" rel="stylesheet">
+
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script>
+
+    var socket = io.connect('http://localhost'); // connec to server
+    socket.on('news', function (data) { // listen to news event raised by the server
+
+        var emotion;
+        var timestamp;
+        $(".btn").click(function (e) {
+            emotion = this.id;
+            timestamp = Math.round(player.getPosition());
+
+            var data = [];
+            data.push(emotion);
+            data.push(timestamp);
+            socket.emit('my other event', data); // raise an event on the server
+        });
+
+    });
+
+</script>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="../public/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+</body>
+</html>
