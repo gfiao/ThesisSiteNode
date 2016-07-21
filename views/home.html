@@ -126,13 +126,15 @@
         var emotion;
         var timestamp;
         $(".btn").click(function (e) {
-            emotion = this.id;
-            timestamp = Math.round(player.getPosition());
+            if (player.getPosition() != 0) {
+                emotion = this.id;
+                timestamp = Math.round(player.getPosition());
 
-            var data = [];
-            data.push(emotion);
-            data.push(timestamp);
-            socket.emit('my other event', data); // raise an event on the server
+                var data = [];
+                data.push(emotion);
+                data.push(timestamp);
+                socket.emit('my other event', data); // raise an event on the server
+            }
         });
 
     });
