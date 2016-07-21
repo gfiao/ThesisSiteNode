@@ -138,20 +138,23 @@
         var emotion;
         var timestamp;
         $(".btn").click(function (e) {
+//            console.log(player.getState());
 
-            if (player.getPosition() != 0) {
+            if (player.getState() != "idle")
+                if (player.getState() != "paused")
+                    if (player.getPosition() != 0) {
 
-                $('#alertMsg').css("display", "inline");
-                setTimeout(hideAlert, 3000);
+                        $('#alertMsg').css("display", "inline");
+                        setTimeout(hideAlert, 3000);
 
-                emotion = this.id;
-                timestamp = Math.round(player.getPosition());
+                        emotion = this.id;
+                        timestamp = Math.round(player.getPosition());
 
-                var data = [];
-                data.push(emotion);
-                data.push(timestamp);
-                socket.emit('my other event', data); // raise an event on the server
-            }
+                        var data = [];
+                        data.push(emotion);
+                        data.push(timestamp);
+                        socket.emit('my other event', data); // raise an event on the server
+                    }
         });
 
     });
