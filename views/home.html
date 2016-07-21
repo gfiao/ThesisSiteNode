@@ -102,6 +102,14 @@
                 </button>
 
             </div>
+
+            <div id="alertMsg" class="emotionMsg">
+
+                <p style="padding-top: 10%;">Emoção partilhada!</p>
+
+            </div>
+
+
         </div>
     </div>
 
@@ -120,13 +128,22 @@
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script>
 
+    function hideAlert() {
+        $('#alertMsg').css("display", "none");
+    }
+
     var socket = io(); // connec to server
     socket.on('news', function (data) { // listen to news event raised by the server
 
         var emotion;
         var timestamp;
         $(".btn").click(function (e) {
+
             if (player.getPosition() != 0) {
+
+                $('#alertMsg').css("display", "inline");
+                setTimeout(hideAlert, 3000);
+
                 emotion = this.id;
                 timestamp = Math.round(player.getPosition());
 
